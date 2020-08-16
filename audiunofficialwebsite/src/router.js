@@ -30,6 +30,7 @@ const MyRouter = () => {
       <Route path="/configurator" component={Configurator} />
       <Route path="/repairs" component={Repairs} />
       <Route path="/models/:modelName" component={Carlist} />
+      <Route path="/" component={Home} />
       <Route component={Error} />
     </Switch>
   )

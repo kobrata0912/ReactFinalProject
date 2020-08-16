@@ -1,0 +1,12 @@
+.containerfluid {
+	position: relative;
+	text-align: center;
+}
+
+.bottommiddle {
+	position: absolute;
+	top: 85%;
+	left: 50%;
+    transform: translate(-50%, -50%);
+    color: white
+}
