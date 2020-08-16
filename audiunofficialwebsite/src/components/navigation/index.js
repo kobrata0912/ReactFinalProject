@@ -16,7 +16,7 @@ const Navigation = () => {
 					class="nav-link dropdown-toggle h4"
 					id="navbardrop"
 					data-toggle="dropdown"
-				>
+				> 
 					Модели
 				</a>
 				<div class="dropdown-menu">
