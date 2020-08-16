@@ -6,12 +6,12 @@ const AboutUs = () => {
 		<React.Fragment>
 			<div>
 				<div className={styles.containerfluid}>
-					<div class='row'>
+					<div className='row'>
 						<img
 							src='/aboutus/about-us.jpg'
 							width='98%'
 							height='563px'
-							class='rounded mx-auto d-block'
+							className='rounded mx-auto d-block'
 							alt='About us'
 						/>
 						<span className={styles.bottommiddle + ' h1 display-1'}>
@@ -20,10 +20,10 @@ const AboutUs = () => {
 					</div>
 				</div>
 				<div className={styles.containerfluid + ' pt-3'}>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8'>
-							<p class='lead text-center'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8'>
+							<p className='lead text-center'>
 								<strong>
 									Символът на Audi - "четирите кръга" - е знакът на един от
 									най-старите автомобилни производители в Германия. Той
@@ -34,11 +34,11 @@ const AboutUs = () => {
 								</strong>
 							</p>
 						</div>
-						<div class='col-2'></div>
+						<div className='col-2'></div>
 					</div>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8 mt-4 shadow'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8 mt-4 shadow'>
 							<p>
 								<span>
 									<strong>Audi</strong>
@@ -55,13 +55,13 @@ const AboutUs = () => {
 								марката се утвърждава като символ на мощност и елит.
 							</p>
 						</div>
-						<div class='col-2 pt-4 mt-5'>
+						<div className='col-2 pt-4 mt-5'>
 							<img src='/aboutus/about-us-audi.jpg' alt="Car"/>
 						</div>
 					</div>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8 mt-4 shadow'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8 mt-4 shadow'>
 							<p>
 								<span>
 									<strong>DKW</strong>
@@ -78,13 +78,13 @@ const AboutUs = () => {
 								на DKW са основата за възраждането на Auto Union в Инголщадт.
 							</p>
 						</div>
-						<div class='col-2 pt-4 mt-5'>
+						<div className='col-2 pt-4 mt-5'>
 							<img src='/aboutus/about-us-dkw.jpg' alt="Car" />
 						</div>
 					</div>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8 mt-4 shadow'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8 mt-4 shadow'>
 							<p>
 								<span>
 									<strong>Horch</strong>
@@ -101,13 +101,13 @@ const AboutUs = () => {
 								марка в луксозния клас и символ за отлично качество.
 							</p>
 						</div>
-						<div class='col-2 pt-4 mt-5'>
+						<div className='col-2 pt-4 mt-5'>
 							<img src='/aboutus/about-us-horch.jpg' alt="Car" />
 						</div>
 					</div>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8 mt-4 shadow'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8 mt-4 shadow'>
 							<p>
 								<span>
 									<strong>Wanderer</strong>
@@ -125,13 +125,13 @@ const AboutUs = () => {
 								дружество Auto Union AG.
 							</p>
 						</div>
-						<div class='col-2 pt-4 mt-5'>
+						<div className='col-2 pt-4 mt-5'>
 							<img src='/aboutus/about-us-wanderer.jpg' alt="Car" />
 						</div>
 					</div>
-					<div class='row'>
-						<div class='col-2'></div>
-						<div class='col-8 mt-4 mb-5 shadow'>
+					<div className='row'>
+						<div className='col-2'></div>
+						<div className='col-8 mt-4 mb-5 shadow'>
 							<p>
 								<span>
 									<strong>NSU</strong>
@@ -149,7 +149,7 @@ const AboutUs = () => {
 								отново е възродено.
 							</p>
 						</div>
-						<div class='col-2 pt-4 mt-5'>
+						<div className='col-2 pt-4 mt-5'>
 							<img src='/aboutus/about-us-nsu.jpg' alt="Car" />
 						</div>
 					</div>
