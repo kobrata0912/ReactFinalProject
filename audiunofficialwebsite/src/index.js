@@ -4,16 +4,19 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import MyRouter from './router';
 import PageLayout from './components/page-layout';
+import Firebase, { FirebaseContext } from './utils/firebase';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App>
-			<BrowserRouter>
-				<PageLayout>
-					<MyRouter />
-				</PageLayout>
-			</BrowserRouter>
-		</App>
+		<FirebaseContext.Provider value={new Firebase()}>
+			<App>
+				<BrowserRouter>
+					<PageLayout>
+						<MyRouter />
+					</PageLayout>
+				</BrowserRouter>
+			</App>
+		</FirebaseContext.Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

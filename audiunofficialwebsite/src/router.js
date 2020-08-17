@@ -12,16 +12,21 @@ import Configurator from './pages/configurator';
 import Repairs from './pages/repairs';
 import Carlist from './pages/carlist';
 import Error from './pages/error';
+import { FirebaseContext } from './utils/firebase';
+
 
 const MyRouter = () => {
 	return (
+		<FirebaseContext.Consumer>
+			{firebase => 
+
 		<Switch>
 			<Route path='/home' exact component={Home} />
 			<Route path='/aboutus' component={About} />
 			<Route path='/contacts' component={Contacts} />
 			<Route path='/user/login' component={Login} />
-			<Route path='/user/register' component={Register} />
-			<Route path='/user/profile/' component={Profile} />
+			<Route path="/user/register" render={(props) => <Register {...props} firebase={firebase} />} />
+			<Route path='/user/profile/' component={Profile}/>
 			<Route path='/news' component={News} />
 			<Route path='/configurator' component={Configurator} />
 			<Route path='/repairs' component={Repairs} />
@@ -29,6 +34,10 @@ const MyRouter = () => {
 			<Route path='/' component={Home} />
 			<Route component={Error} />
 		</Switch>
+					
+				}
+		</FirebaseContext.Consumer>
+
 	);
 };
 
