@@ -1,27 +1,55 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom'
+import {store} from '../../utils/store'
 
-const Login = () => {
+const Login = (props) => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const history = useHistory();
+	const userState = useContext(store);
+	const {dispatch} = userState;
+
+	//const isInvalid = email === '' || password === ''
+
+	const handleLogin = (event) => {
+		event.preventDefault();
+		props.firebase
+			.doSignInWithEmailAndPassword(email, password)
+			.then((authUser) => {
+				setEmail('');
+				setPassword('');
+				dispatch({type: 'login'})
+				history.push('/home')
+			})				
+			.catch((e) => {
+				setEmail('');
+				setPassword('');
+				console.log(e);
+			});
+	};
+
 	return (
 		<div className="container pt-5">
 		<div className="row">
 			<div className="col-sm"></div>
 			<div className="col-sm border shadow-lg p-3 mb-5 bg-white rounded">
 				<div className="row"></div>
-				<form >
+				<form onSubmit={handleLogin} >
 					<div className="form-group">
-						<label for="email" className="h4">Имейл</label>
+						<label htmlFor="email" className="h4">Имейл</label>
 						<input
 							name="email"
 							placeholder="Valid GMAIL account"
 							type="text"
 							className="form-control"
 							id="email"
+							onChange={e => setEmail(e.target.value)}
 							// @blur="$v.email.$touch"
 							// :className="{
 							// 	'is-invalid': $v.email.$error,
 							// 	'is-valid': !$v.email.$invalid,
 							// }"
-							autocomplete="off"
+							autoComplete="off"
 						/>
 					</div>
 					{/* <div
@@ -32,13 +60,14 @@ const Login = () => {
 					</div> */}
 
 					<div className="form-group">
-						<label for="password" className="h4">Парола</label>
+						<label htmlFor="password" className="h4">Парола</label>
 						<input
 							name="password"
 							placeholder="Password > 8 characters"
 							type="password"
 							className="form-control"
 							id="password"
+							onChange={e => setPassword(e.target.value)}
 							// @blur="$v.password.$touch"
 							// :className="{
 							// 	'is-invalid': $v.password.$error,

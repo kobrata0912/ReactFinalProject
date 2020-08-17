@@ -24,7 +24,7 @@ const MyRouter = () => {
 			<Route path='/home' exact component={Home} />
 			<Route path='/aboutus' component={About} />
 			<Route path='/contacts' component={Contacts} />
-			<Route path='/user/login' component={Login} />
+			<Route path='/user/login' render={(props) => <Login {...props} firebase={firebase} />} />
 			<Route path="/user/register" render={(props) => <Register {...props} firebase={firebase} />} />
 			<Route path='/user/profile/' component={Profile}/>
 			<Route path='/news' component={News} />

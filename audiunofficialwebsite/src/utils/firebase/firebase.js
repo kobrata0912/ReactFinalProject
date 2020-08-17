@@ -12,7 +12,7 @@ const firebaseConfig = {
 	measurementId: 'G-VWJ6TM23F9',
 };
 
-class Firebase {
+class Firebase{
 	constructor() {
 		app.initializeApp(firebaseConfig);
 		this.auth = app.auth();
@@ -50,6 +50,7 @@ class Firebase {
 	doNamesChange = async (firstName, lastName) => {
 		return await this.auth.currentUser.updateProfile({displayName: `${firstName} ${lastName}`})
 	}
+
 }
 
 export default Firebase;
