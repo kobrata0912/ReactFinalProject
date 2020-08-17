@@ -1,27 +1,41 @@
-import React, { Component } from 'react';
-import {StateProvider} from './utils/store'
+import React, { useState, useEffect } from 'react';
+import UserContext from './utils/userContext';
 
-class App extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			authUser: null
-		}
-	}
+const App = (props) => {
+	const [user, setUser] = useState(
+		props.user
+			? {
+					...props.user,
+					loggedIn: true,
+			  }
+			: null
+	);
 
-	componentDidMount() {
-		this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-			authUser ? this.setState({authUser}) : this.setState({authUser: null})
-		})
-	}
+	const logIn = (userObject) => {
+		setUser({
+			...userObject,
+			loggedIn: true,
+		});
+	};
 
-	componentWillUnmount() {
-		this.listener();
-	}
+	const logOut = () => {
+		props.firebase.doSignOut();
+		setUser({
+			loggedIn: false,
+		});
+	};
 
-	render() {
-		return <StateProvider>{this.props.children}</StateProvider>;
-	}
-}
+	return (
+		<UserContext.Provider
+			value={{
+				user,
+				logIn,
+				logOut,
+			}}
+		>
+			{props.children}
+		</UserContext.Provider>
+	);
+};
 
 export default App;

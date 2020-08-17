@@ -1,14 +1,10 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { store } from '../../utils/store';
+import UserContext from '../../utils/userContext';
 
 const Navigation = (props) => {
-	const userContext = useContext(store);
-	const {dispatch} = userContext;
-
-	const logout = () => {
-		dispatch({type: 'logout'})
-	}
+	const userContext = useContext(UserContext);
+	const {logOut} = userContext
 
 	return (
 		<nav className='navbar navbar-expand-sm bg-light navbar-light sticky-top justify-content-center border'>
@@ -60,7 +56,7 @@ const Navigation = (props) => {
 						Контакти
 					</Link>
 				</li>
-				{!userContext.state.loggedIn ? (
+				{!userContext.user || !userContext.user.loggedIn ? (
 					<li className='nav-item mx-1 shadow'>
 						<Link to='/user/login' className='nav-link h4'>
 							Вход
@@ -69,7 +65,7 @@ const Navigation = (props) => {
 				) : (
 					''
 				)}
-				{!userContext.state.loggedIn ? (
+				{!userContext.user || !userContext.user.loggedIn ? (
 					<li className='nav-item mx-1 shadow'>
 						<Link to='/user/register' className='nav-link h4'>
 							Регистрация
@@ -78,7 +74,7 @@ const Navigation = (props) => {
 				) : (
 					''
 				)}
-				{userContext.state.loggedIn ? (
+				{userContext.user && userContext.user.loggedIn ? (
 					<li className='nav-item mx-1 shadow'>
 						<Link to='/user/profile' className='nav-link h4'>
 							Профил
@@ -87,9 +83,9 @@ const Navigation = (props) => {
 				) : (
 					''
 				)}
-				{userContext.state.loggedIn ? (
+				{userContext.user && userContext.user.loggedIn ? (
 				<li className='nav-item mx-1 shadow'>
-					<p onClick={logout}className='nav-link h4'>Изход</p>
+					<p onClick={logOut} className='nav-link h4'>Изход</p>
 				</li>
 				) : (
 					''

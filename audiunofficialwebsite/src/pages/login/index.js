@@ -1,14 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
-import {store} from '../../utils/store'
+import UserContext from '../../utils/userContext';
 
 const Login = (props) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const history = useHistory();
-	const userState = useContext(store);
-	const {dispatch} = userState;
-
+	const userContext = useContext(UserContext);
 	//const isInvalid = email === '' || password === ''
 
 	const handleLogin = (event) => {
@@ -18,7 +16,7 @@ const Login = (props) => {
 			.then((authUser) => {
 				setEmail('');
 				setPassword('');
-				dispatch({type: 'login'})
+				userContext.logIn(authUser)
 				history.push('/home')
 			})				
 			.catch((e) => {

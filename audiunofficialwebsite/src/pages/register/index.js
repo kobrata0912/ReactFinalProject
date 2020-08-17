@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import {store} from '../../utils/store'
+import UserContext from '../../utils/userContext'
 
 
 const Register = (props) => {
@@ -10,8 +10,8 @@ const Register = (props) => {
 	const [password, setPassword] = useState('');
 	const [rePassword, setRePassword] = useState('');
 	const history = useHistory();
-	const userState = useContext(store);
-	const {dispatch} = userState;
+	const userContext = useContext(UserContext);
+	const {logIn} = userContext
 
 	const isInvalid =
 		password !== rePassword ||
@@ -31,7 +31,8 @@ const Register = (props) => {
 				setEmail('');
 				setPassword('');
 				setRePassword('');
-				dispatch({type: 'login'})
+				console.log(authUser);
+				logIn(authUser)
 				history.push('/home')
 			})				
 			.catch((e) => {

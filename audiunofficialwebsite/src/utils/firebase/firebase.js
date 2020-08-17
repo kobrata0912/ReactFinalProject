@@ -24,15 +24,18 @@ class Firebase{
 		firstName,
 		lastName
 	) => {
-		return await this.auth
+		await this.auth
 			.createUserWithEmailAndPassword(email, password)
 			.then((data) => {
 				data.user
 					.updateProfile({
 						displayName: `${firstName} ${lastName}`,
 					})
-					.then(() => {});
+
 			});
+
+		return await this.doSignInWithEmailAndPassword(email, password)
+		
 	};
 
 	doSignInWithEmailAndPassword = async (email, password) => {
