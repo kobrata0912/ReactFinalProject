@@ -31,25 +31,7 @@ const Carlist = () => {
 					</div>
 				</div>
 			</div>
-		) : (
-			// <div>
-			// 	<slideshow model='model'></slideshow>
-			// 	<div class='container-fluid mb-5'>
-			// 		<div class='container-fluid m-2 p-5 border shadow-lg'>
-			// 			<navtabs></navtabs>
-
-			// 			<div class='tab-content'>
-			// 				<overview model='model'></overview>
-			// 				<technicalData model='model'></technicalData>
-			// 				<dimensions model='model'></dimensions>
-			// 				<interior model='model'></interior>
-			// 				<extras model='model'></extras>
-			// 				<pricelist model='model'></pricelist>
-			// 			</div>
-			// 		</div>
-			// 	</div>
-			// </div>
-			''
+		) : ( ''
 		);
 	}, [car]);
 
@@ -69,24 +51,6 @@ const Carlist = () => {
 	}, [firebase.db]);
 
 	return (
-		// <div>
-		// 	<slideshow model='model'></slideshow>
-		// 	<div class='container-fluid mb-5'>
-		// 		<div class='container-fluid m-2 p-5 border shadow-lg'>
-		// 			<navtabs></navtabs>
-
-		// 			<div class='tab-content'>
-		// 				<overview model='model'></overview>
-		// 				<technicalData model='model'></technicalData>
-		// 				<dimensions model='model'></dimensions>
-		// 				<interior model='model'></interior>
-		// 				<extras model='model'></extras>
-		// 				<pricelist model='model'></pricelist>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-		// </div>
-
 		<div>{renderCar}</div>
 	);
 };
