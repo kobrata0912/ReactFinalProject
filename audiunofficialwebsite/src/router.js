@@ -16,17 +16,17 @@ import Error from './pages/error';
 const MyRouter = () => {
 	return (
 		<Switch>
-			<Route path='/home' exact component={Home} />
-			<Route path='/aboutus' component={About} />
-			<Route path='/contacts' component={Contacts} />
-			<Route path='/user/login' component={Login} />
-			<Route path='/user/register' component={Register} />
-			<Route path='/user/profile/' component={Profile} />
-			<Route path='/news' component={News} />
-			<Route path='/configurator' component={Configurator} />
-			<Route path='/repairs' component={Repairs} />
-			<Route path='/models/:modelName' component={Carlist} />
-			<Route path='/' component={Home} />
+			<Route exact path='/home' component={Home} />
+			<Route exact path='/aboutus' component={About} />
+			<Route exact path='/contacts' component={Contacts} />
+			<Route exact path='/user/login' component={Login} />
+			<Route exact path='/user/register' component={Register} />
+			<Route exact path='/user/profile/' component={Profile} />
+			<Route exact path='/news' component={News} />
+			<Route exact path='/configurator' component={Configurator} />
+			<Route exact path='/repairs' component={Repairs} />
+			<Route exact path='/models/:modelName' component={Carlist} />
+			<Route exact path='/'  component={Home} />
 			<Route component={Error} />
 		</Switch>
 	);
