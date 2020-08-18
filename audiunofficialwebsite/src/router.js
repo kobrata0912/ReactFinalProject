@@ -1,5 +1,6 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import UserContext from './utils/userContext';
 
 import Home from './pages/home';
 import About from './pages/aboutus';
@@ -14,19 +15,32 @@ import Carlist from './pages/carlist';
 import Error from './pages/error';
 
 const MyRouter = () => {
+	const userContext = useContext(UserContext);
+	const loggedIn = userContext.user && userContext.user.loggedIn;
+
 	return (
 		<Switch>
 			<Route exact path='/home' component={Home} />
 			<Route exact path='/aboutus' component={About} />
 			<Route exact path='/contacts' component={Contacts} />
-			<Route exact path='/user/login' component={Login} />
-			<Route exact path='/user/register' component={Register} />
-			<Route exact path='/user/profile/' component={Profile} />
+			<Route exact path='/user/login'>
+				{loggedIn ? <Redirect to='/home' /> : <Login />}
+			</Route>
+			<Route exact path='/user/register'>
+				{loggedIn ? <Redirect to='/home' /> : <Register />}
+			</Route>
+			<Route exact path='/user/profile/'>
+				{!loggedIn ? <Redirect to='/home' /> : <Profile />}
+			</Route>
 			<Route exact path='/news' component={News} />
-			<Route exact path='/configurator' component={Configurator} />
-			<Route exact path='/repairs' component={Repairs} />
+			<Route exact path='/configurator'>
+				{!loggedIn ? <Redirect to='/home' /> : <Configurator />}
+			</Route>
+			<Route exact path='/repairs'>
+				{!loggedIn ? <Redirect to='/home' /> : <Repairs />}
+			</Route>
 			<Route exact path='/models/:modelName' component={Carlist} />
-			<Route exact path='/'  component={Home} />
+			<Route exact path='/' component={Home} />
 			<Route component={Error} />
 		</Switch>
 	);
