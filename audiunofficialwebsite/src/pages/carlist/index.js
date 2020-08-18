@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
 import Slideshow from '../../components/carlist-components/slideshow';
 import Navtabs from '../../components/carlist-components/navtabs';
-import Overview from '../../components/carlist-components/overview'
-import TechnicalData from '../../components/carlist-components/technicalData'
-import Dimensions from '../../components/carlist-components/dimensions'
-import Interior from '../../components/carlist-components/interior'
-import Extras from '../../components/carlist-components/extras'
-import PriceList from '../../components/carlist-components/priceList'
+import Overview from '../../components/carlist-components/overview';
+import TechnicalData from '../../components/carlist-components/technicalData';
+import Dimensions from '../../components/carlist-components/dimensions';
+import Interior from '../../components/carlist-components/interior';
+import Extras from '../../components/carlist-components/extras';
+import PriceList from '../../components/carlist-components/priceList';
 
-const Carlist = () => {
+const Carlist = (props) => {
 	const firebase = useContext(FirebaseContext);
 	const [car, setCar] = useState([]);
 
@@ -31,28 +31,24 @@ const Carlist = () => {
 					</div>
 				</div>
 			</div>
-		) : ( ''
+		) : (
+			''
 		);
 	}, [car]);
-
 	useEffect(() => {
-		const unsub = firebase.db
+		firebase.db
 			.collection('cars')
-			.where('modelName', '==', 'Q2')
+			.where('modelName', '==', props.match.params.modelName)
 			.get()
 			.then((snap) => {
 				snap.forEach(async (doc) => {
 					setCar({ ...doc.data() });
 				});
 			});
-		return () => {
-			unsub();
-		};
-	}, [firebase.db]);
+			return
+	}, [firebase.db, props.match.params.modelName]);
 
-	return (
-		<div>{renderCar}</div>
-	);
+	return <div>{renderCar}</div>;
 };
 
 export default Carlist;
