@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../utils/userContext'
-
+import UserContext from '../../utils/userContext';
+import FirebaseContext from '../../utils/firebase/firebaseContext';
 
 const Register = (props) => {
 	const [firstName, setFirstName] = useState('');
@@ -10,8 +10,8 @@ const Register = (props) => {
 	const [password, setPassword] = useState('');
 	const [rePassword, setRePassword] = useState('');
 	const history = useHistory();
-	const userContext = useContext(UserContext);
-	const {logIn} = userContext
+	const { logIn } = useContext(UserContext);
+	const firebase = useContext(FirebaseContext);
 
 	const isInvalid =
 		password !== rePassword ||
@@ -23,7 +23,7 @@ const Register = (props) => {
 
 	const handleRegister = (event) => {
 		event.preventDefault();
-		props.firebase
+		firebase
 			.doCreateUserWithEmailAndPassword(email, password, firstName, lastName)
 			.then((authUser) => {
 				setFirstName('');
@@ -31,10 +31,9 @@ const Register = (props) => {
 				setEmail('');
 				setPassword('');
 				setRePassword('');
-				console.log(authUser);
-				logIn(authUser)
-				history.push('/home')
-			})				
+				logIn(authUser);
+				history.push('/home');
+			})
 			.catch((e) => {
 				setFirstName('');
 				setLastName('');

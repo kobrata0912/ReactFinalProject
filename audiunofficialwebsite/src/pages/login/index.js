@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import UserContext from '../../utils/userContext';
+import FirebaseContext from '../../utils/firebase/firebaseContext'
 
 const Login = (props) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const history = useHistory();
 	const userContext = useContext(UserContext);
-	//const isInvalid = email === '' || password === ''
+	const firebase = useContext(FirebaseContext)
+	const isInvalid = email === '' || password === ''
 
 	const handleLogin = (event) => {
 		event.preventDefault();
-		props.firebase
+		firebase
 			.doSignInWithEmailAndPassword(email, password)
 			.then((authUser) => {
 				setEmail('');
@@ -80,10 +82,7 @@ const Login = (props) => {
 						Моля, въведете валидна парола!
 					</div> */}
 
-					<button
-						
-						className="btn btn-primary"
-					>
+					<button	 disabled={isInvalid} className="btn btn-primary">
 						<h5>Вход</h5>
 					</button>
 				</form>

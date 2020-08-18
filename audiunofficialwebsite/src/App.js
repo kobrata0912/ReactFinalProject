@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import UserContext from './utils/userContext';
+import FirebaseContext from './utils/firebase/firebaseContext'
 
 const App = (props) => {
 	const [user, setUser] = useState(
@@ -8,8 +9,11 @@ const App = (props) => {
 					...props.user,
 					loggedIn: true,
 			  }
-			: null
+			: {
+				loggedIn: false
+			}
 	);
+	const firebase = useContext(FirebaseContext)
 
 	const logIn = (userObject) => {
 		setUser({
@@ -19,7 +23,7 @@ const App = (props) => {
 	};
 
 	const logOut = () => {
-		props.firebase.doSignOut();
+		firebase.doSignOut();
 		setUser({
 			loggedIn: false,
 		});

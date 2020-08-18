@@ -1,5 +1,8 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
+import "@firebase/firestore";
+
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyB4zD7vjAq81eI8rlNNa9ZukAI2_8B37S0',
@@ -16,6 +19,7 @@ class Firebase{
 	constructor() {
 		app.initializeApp(firebaseConfig);
 		this.auth = app.auth();
+		this.db = app.firestore();
 	}
 
 	doCreateUserWithEmailAndPassword = async (
@@ -53,6 +57,7 @@ class Firebase{
 	doNamesChange = async (firstName, lastName) => {
 		return await this.auth.currentUser.updateProfile({displayName: `${firstName} ${lastName}`})
 	}
+
 
 }
 
