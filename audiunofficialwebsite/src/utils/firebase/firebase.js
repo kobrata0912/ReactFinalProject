@@ -35,7 +35,6 @@ class Firebase{
 					.updateProfile({
 						displayName: `${firstName} ${lastName}`,
 					})
-
 			});
 
 		return await this.doSignInWithEmailAndPassword(email, password)
@@ -43,14 +42,19 @@ class Firebase{
 	};
 
 	doSignInWithEmailAndPassword = async (email, password) => {
+		localStorage.setItem('email', email);
+		localStorage.setItem('password', password);
 		return await this.auth.signInWithEmailAndPassword(email, password);
 	};
 
 	doSignOut = async () => {
+		localStorage.setItem('email', '');
+		localStorage.setItem('password', '');
 		return await this.auth.signOut();
 	};
 
 	doPasswordUpdate = async (password) => {
+		localStorage.setItem('password', password);
 		return await this.auth.currentUser.updatePassword(password);
 	};
 

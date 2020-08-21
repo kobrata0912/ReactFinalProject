@@ -155,12 +155,12 @@ const Repairs = () => {
 										// 	'is-valid': !$v.description.$invalid,
 										// }"
 									></textarea>
-									<div
+									{/* <div
 										className="alert alert-danger alert-dismissible fade show"
 										// v-if="$v.description.$dirty && $v.description.$invalid"
 									>
 										Моля, опишете накратко повредите по автомобила
-									</div>
+									</div> */}
 								</div>
 							</div>
 						</div>
