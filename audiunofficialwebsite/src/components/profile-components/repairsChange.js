@@ -17,7 +17,7 @@ const RepairsChange = () => {
 		return repairs.map((oneRepair, index) => {
 			return <OneRepair key={oneRepair.id} index={index} {...oneRepair} />;
 		});
-    });
+    }, [repairs]);
 
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const RepairsChange = () => {
             return () => {
                 unsub();
             };
-    }, [firebase.db])
+    }, [firebase.db, userContext.user.user.email])
 
 	return (
 		<div className='col-lg-5 p-2 m-1 border'>

@@ -1,8 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import FirebaseContext from '../../utils/firebase/firebaseContext'
 
 const OneRepair = (props) => {
-    console.log(props.id);
     const firebase = useContext(FirebaseContext);
     
     const deleteRepair = (event, id) => {

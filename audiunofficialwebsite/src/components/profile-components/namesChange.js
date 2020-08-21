@@ -1,13 +1,11 @@
 import React, { useState, useContext } from 'react'
 import FirebaseContext from '../../utils/firebase/firebaseContext';
-import UserContext from '../../utils/userContext';
 
 const NamesChange = () => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('');
     const firebase = useContext(FirebaseContext);
-    const userContext = useContext(UserContext);
 
     const handleNamesChange = (event) => {
         event.preventDefault();

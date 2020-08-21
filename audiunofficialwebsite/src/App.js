@@ -29,7 +29,7 @@ const App = (props) => {
 		});
 	};
 
-	const shouldAutoLogIn = () => {
+	useEffect(() => {
 		const email = localStorage.getItem('email')
 		const password = localStorage.getItem('password');
 		if ((email && email !== '') && (password && password !== '')) {
@@ -38,11 +38,7 @@ const App = (props) => {
 				logIn(user);
 			})
 		}
-	}
-
-	useEffect(() => {
-		shouldAutoLogIn();
-	}, [])
+	}, [firebase])
 
 	return (
 		<UserContext.Provider
