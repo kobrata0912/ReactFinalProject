@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import FirebaseContext from '../../utils/firebase/firebaseContext'
+import { toast } from 'react-toastify';
 
 const OneRepair = (props) => {
     const firebase = useContext(FirebaseContext);
@@ -8,7 +9,7 @@ const OneRepair = (props) => {
         event.preventDefault()
         if (id !== undefined) {
             firebase.db.collection('repairs').doc(id).delete().then(() => {
-                console.log('successfully deleted');
+                toast.success('Successfully deleted the Repair Inquiry')
             })
         }
     }

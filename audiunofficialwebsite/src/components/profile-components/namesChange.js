@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import FirebaseContext from '../../utils/firebase/firebaseContext';
-
+import { toast } from 'react-toastify'
+ 
 const NamesChange = () => {
 
     const [firstName, setFirstName] = useState('')
@@ -13,7 +14,8 @@ const NamesChange = () => {
         firebase.auth.currentUser.updateProfile({displayName: newNames})
         .then(() => {
             setFirstName('');
-            setLastName('');
+			setLastName('');
+			toast.success(`Successfully changed names to ${newNames}`)
         })
     }
 

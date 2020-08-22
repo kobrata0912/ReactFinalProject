@@ -1,25 +1,105 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import UserContext from '../../utils/userContext';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
 
 const Register = (props) => {
+	const { logIn } = useContext(UserContext);
+	const firebase = useContext(FirebaseContext);
+	const history = useHistory();
+
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [rePassword, setRePassword] = useState('');
-	const history = useHistory();
-	const { logIn } = useContext(UserContext);
-	const firebase = useContext(FirebaseContext);
 
-	const isInvalid =
-		password !== rePassword ||
-		password === '' ||
-		rePassword === '' ||
-		email === '' ||
-		firstName === '' ||
-		lastName === '';
+	const [firstNameValid, setFirstNameValid] = useState('');
+	const [firstNameClass, setFirstNameClass] = useState('form-control');
+	const [lastNameValid, setLastNameValid] = useState('');
+	const [lastNameClass, setLastNameClass] = useState('form-control');
+	const [emailValid, setEmailValid] = useState('');
+	const [emailClass, setEmailClass] = useState('form-control');
+	const [passwordValid, setPasswordValid] = useState('');
+	const [passwordClass, setPasswordClass] = useState('form-control');
+	const [rePasswordValid, setRePasswordValid] = useState('');
+	const [rePasswordClass, setRePasswordClass] = useState('form-control');
+	const isFormValid =
+		firstNameValid &&
+		lastNameValid &&
+		emailValid &&
+		passwordValid &&
+		rePasswordValid;
+
+	const validator = (e) => {
+		switch (e.target.name) {
+			case 'firstName':
+				{
+					const validation = RegExp(/^[А-Яа-яA-Za-z\-']{2,}$/).test(firstName);
+					if (validation) {
+						setFirstNameValid(true);
+						setFirstNameClass('form-control is-valid');
+					} else {
+						setFirstNameValid(false);
+						setFirstNameClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'lastName':
+				{
+					const validation = RegExp(/^[А-Яа-яA-Za-z\-']{2,}$/).test(lastName);
+					if (validation) {
+						setLastNameValid(true);
+						setLastNameClass('form-control is-valid');
+					} else {
+						setLastNameValid(false);
+						setLastNameClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'email':
+				{
+					const validation = RegExp(/^[a-zA-Z0-9.-_]{3,}@gmail.com$/).test(
+						email
+					);
+					if (validation) {
+						setEmailValid(true);
+						setEmailClass('form-control is-valid');
+					} else {
+						setEmailValid(false);
+						setEmailClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'password':
+				{
+					const validation = RegExp(/^[A-Za-z0-9.-_]{8,}$/).test(password);
+					if (validation) {
+						setPasswordValid(true);
+						setPasswordClass('form-control is-valid');
+					} else {
+						setPasswordValid(false);
+						setPasswordClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'rePassword':
+				{
+					const validation = password === rePassword && password !== '';
+					if (validation) {
+						setRePasswordValid(true);
+						setRePasswordClass('form-control is-valid');
+					} else {
+						setRePasswordValid(false);
+						setRePasswordClass('form-control is-invalid');
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	};
 
 	const handleRegister = (event) => {
 		event.preventDefault();
@@ -32,6 +112,7 @@ const Register = (props) => {
 				setPassword('');
 				setRePassword('');
 				logIn(authUser);
+				toast.success('Successfully registered!')
 				history.push('/home');
 			})
 			.catch((e) => {
@@ -40,7 +121,7 @@ const Register = (props) => {
 				setEmail('');
 				setPassword('');
 				setRePassword('');
-				console.log(e);
+				toast.error(e);
 			});
 	};
 	return (
@@ -57,14 +138,10 @@ const Register = (props) => {
 								<input
 									name='firstName'
 									type='text'
-									className='form-control'
-									id='firstName'
+									className={firstNameClass}
+									value={firstName}
 									onChange={(e) => setFirstName(e.target.value)}
-									// @blur="$v.firstName.$touch"
-									// :className="{
-									// 	'is-invalid': $v.firstName.$error,
-									// 	'is-valid': !$v.firstName.$invalid,
-									// }"
+									onBlur={validator}
 									autoComplete='off'
 								/>
 							</div>
@@ -76,37 +153,35 @@ const Register = (props) => {
 								<input
 									name='lastName'
 									type='text'
-									className='form-control'
-									id='lastName'
+									className={lastNameClass}
+									value={lastName}
 									onChange={(e) => setLastName(e.target.value)}
-									// @blur="$v.lastName.$touch"
-									// :className="{
-									// 	'is-invalid': $v.lastName.$error,
-									// 	'is-valid': !$v.lastName.$invalid,
-									// }"
+									onBlur={validator}
 									autoComplete='off'
 								/>
 							</div>
 						</div>
 
-						{/* <div className="row">
-						<div className="col mt-3">
-							<div
-								className="alert alert-danger alert-dismissible fade show"
-								v-if="$v.firstName.$dirty && $v.firstName.$invalid"
-							>
-								Моля, въведете валидно име!
-							</div>
+						<div className='row'>
+							{firstNameValid === false ? (
+								<div className='col mt-3'>
+									<div className='alert alert-danger alert-dismissible fade show'>
+										Моля, въведете валидно име!
+									</div>
+								</div>
+							) : (
+								''
+							)}
+							{lastNameValid === false ? (
+								<div className='col mt-3'>
+									<div className='alert alert-danger alert-dismissible fade show'>
+										Моля, въведете валидна фамилия!
+									</div>
+								</div>
+							) : (
+								''
+							)}
 						</div>
-						<div className="col mt-3">
-							<div
-								className="alert alert-danger alert-dismissible fade show"
-								v-if="$v.lastName.$dirty && $v.lastName.$invalid"
-							>
-								Моля, въведете валидна фамилия!
-							</div>
-						</div>
-					</div> */}
 
 						<div className='form-group'>
 							<label htmlFor='email' className='h4'>
@@ -115,24 +190,21 @@ const Register = (props) => {
 							<input
 								name='email'
 								placeholder='Valid GMAIL account'
-								type='text'
-								className='form-control'
-								id='email'
+								className={emailClass}
+								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								// @blur="$v.email.$touch"
-								// :className="{
-								// 	'is-invalid': $v.email.$error,
-								// 	'is-valid': !$v.email.$invalid,
-								// }"
+								onBlur={validator}
 								autoComplete='off'
 							/>
 						</div>
-						{/* <div
-						className="alert alert-danger alert-dismissible fade show"
-						v-if="$v.email.$dirty && $v.email.$invalid"
-					>
-						Моля, въведете валиден Gmail имейл!
-					</div> */}
+						{emailValid === false ? (
+							<div className='alert alert-danger alert-dismissible fade show'>
+								Моля, въведете валиден Gmail имейл!
+							</div>
+						) : (
+							''
+						)}
+
 						<div className='form-group'>
 							<label htmlFor='password' className='h4'>
 								Парола
@@ -141,22 +213,21 @@ const Register = (props) => {
 								name='password'
 								placeholder='Password > 8 characters'
 								type='password'
-								className='form-control'
-								id='password'
+								className={passwordClass}
+								value={password}
 								onChange={(e) => setPassword(e.target.value)}
-								// @blur="$v.password.$touch"
-								// :className="{
-								// 	'is-invalid': $v.password.$error,
-								// 	'is-valid': !$v.password.$invalid,
-								// }"
+								onBlur={validator}
+								autoComplete='off'
 							/>
 						</div>
-						{/* <div
-						className="alert alert-danger alert-dismissible fade show"
-						v-if="$v.password.$dirty && $v.password.$invalid"
-					>
-						Моля, въведете валидна парола!
-					</div> */}
+						{passwordValid === false ? (
+							<div className='alert alert-danger alert-dismissible fade show'>
+								Моля, въведете валидна парола!
+							</div>
+						) : (
+							''
+						)}
+
 						<div className='form-group'>
 							<label htmlFor='rePassword' className='h4'>
 								Повторна парола
@@ -165,43 +236,25 @@ const Register = (props) => {
 								name='rePassword'
 								placeholder='Password > 8 characters'
 								type='password'
-								className='form-control'
-								id='rePassword'
+								className={rePasswordClass}
+								value={rePassword}
 								onChange={(e) => setRePassword(e.target.value)}
-								// @blur="$v.rePassword.$touch"
-								// :className="{
-								// 	'is-invalid': $v.rePassword.$error,
-								// 	'is-valid': !$v.rePassword.$invalid && $v.rePassword.sameAs,
-								// }"
+								onBlur={validator}
 							/>
 						</div>
-						{/* <div
-						className="alert alert-danger alert-dismissible fade show"
-						v-if="$v.rePassword.$dirty && $v.rePassword.$invalid"
-					>
-						Двете пароли не съвпадат!
-					</div> */}
-						<button disabled={isInvalid} className='btn btn-primary'>
+
+						{rePasswordValid === false ? (
+							<div className='alert alert-danger alert-dismissible fade show'>
+								Двете пароли не съвпадат!
+							</div>
+						) : (
+							''
+						)}
+
+						<button disabled={!isFormValid} className='btn btn-primary'>
 							<h5>Регистрация</h5>
 						</button>
 					</form>
-					{/* <div className="row">
-					<div className="container" v-if="loading">
-						<div className="row">
-							<div id="loader">
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="dot"></div>
-								<div className="loading"></div>
-							</div>
-						</div>
-					</div>
-				</div> */}
 				</div>
 				<div className='col'></div>
 			</div>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
 import UserContext from '../../utils/userContext';
+import { toast } from 'react-toastify';
 
 
 const PasswordChange = () => {
@@ -17,10 +18,11 @@ const PasswordChange = () => {
         firebase.auth.currentUser.updatePassword(newPassword)
         .then(() => {
             logOut();
-            history.push('/home')
+			history.push('/home');
+			toast.success('Successfully changed password. Please Log In again!')
         })
         .catch(e => {
-            console.log(e);
+            toast.error(e.message)
         })
     }
 

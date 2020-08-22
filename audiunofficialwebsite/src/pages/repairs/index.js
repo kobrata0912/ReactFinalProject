@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import FirebaseContext from '../../utils/firebase/firebaseContext'
 import UserContext from '../../utils/userContext'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Repairs = () => {
 	const history = useHistory();
@@ -24,10 +25,11 @@ const Repairs = () => {
 				phone
 			})
 			.then(() => {
-				history.push('/home')
+				toast.success('Successfully created the Repair Inquiry')
+				history.push('/user/profile')
 			})
 			.catch(e => {
-				console.log(e);
+				toast.error(e)
 			})
     }
     

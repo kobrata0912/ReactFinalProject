@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { toast } from 'react-toastify';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
 import Slideshow from '../../components/carlist-components/slideshow';
 import Navtabs from '../../components/carlist-components/navtabs';
@@ -44,8 +45,11 @@ const Carlist = (props) => {
 				snap.forEach(async (doc) => {
 					setCar({ ...doc.data() });
 				});
-			});
-			return
+			})
+			.catch((e) => {
+				toast.warning(e.message)
+			})
+		return;
 	}, [firebase.db, props.match.params.modelName]);
 
 	return <div>{renderCar}</div>;
