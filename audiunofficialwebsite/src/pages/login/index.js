@@ -3,10 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import UserContext from '../../utils/userContext';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
+import LoadingContext from '../../utils/loadingContext';
 
 const Login = (props) => {
 	const { logIn } = useContext(UserContext);
 	const firebase = useContext(FirebaseContext);
+	const loadingContext = useContext(LoadingContext)
 	const history = useHistory();
 
 	const [email, setEmail] = useState('');
@@ -52,11 +54,11 @@ const Login = (props) => {
 
 	const handleLogin = (event) => {
 		event.preventDefault();
+		loadingContext.showLoading();
 		firebase
 			.doSignInWithEmailAndPassword(email, password)
 			.then((authUser) => {
-				setEmail('');
-				setPassword('');
+				loadingContext.hideLoading();
 				logIn(authUser);
 				toast.success(`Logged in successfully as ${email}`);
 				history.push('/home');
@@ -64,6 +66,7 @@ const Login = (props) => {
 			.catch((e) => {
 				setEmail('');
 				setPassword('');
+				loadingContext.hideLoading();
 				toast.error(e.message);
 			});
 	};

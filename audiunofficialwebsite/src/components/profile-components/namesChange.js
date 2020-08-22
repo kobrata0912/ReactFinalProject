@@ -1,92 +1,130 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
-import { toast } from 'react-toastify'
- 
+import { toast } from 'react-toastify';
+import LoadingContext from '../../utils/loadingContext';
+
 const NamesChange = () => {
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const firebase = useContext(FirebaseContext);
+	const loadingContext = useContext(LoadingContext);
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('');
-    const firebase = useContext(FirebaseContext);
+	const [firstNameValid, setFirstNameValid] = useState('');
+	const [firstNameClass, setFirstNameClass] = useState('form-control');
+	const [lastNameValid, setLastNameValid] = useState('');
+	const [lastNameClass, setLastNameClass] = useState('form-control');
+	const isFormValid = firstNameValid && lastNameValid;
 
-    const handleNamesChange = (event) => {
-        event.preventDefault();
-        const newNames = `${firstName} ${lastName}`
-        firebase.auth.currentUser.updateProfile({displayName: newNames})
-        .then(() => {
-            setFirstName('');
-			setLastName('');
-			toast.success(`Successfully changed names to ${newNames}`)
-        })
-    }
+	const validator = (e) => {
+		switch (e.target.name) {
+			case 'firstName':
+				{
+					const validation = RegExp(/^[А-Яа-яA-Za-z\-']{2,}$/).test(firstName);
+					if (validation) {
+						setFirstNameValid(true);
+						setFirstNameClass('form-control is-valid');
+					} else {
+						setFirstNameValid(false);
+						setFirstNameClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'lastName':
+				{
+					const validation = RegExp(/^[А-Яа-яA-Za-z\-']{2,}$/).test(lastName);
+					if (validation) {
+						setLastNameValid(true);
+						setLastNameClass('form-control is-valid');
+					} else {
+						setLastNameValid(false);
+						setLastNameClass('form-control is-invalid');
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	};
 
-    return (
-        <div className="col-lg-5 p-2 m-1 justify-content-center d-flex">
-		<div className="container">
-			<form onSubmit={handleNamesChange}>
-				<div className="form-group row">
-					<label htmlFor="firstName" className="col-sm-2 col-form-label">
-						Име
-					</label>
-					<div className="col-sm-10">
-						<input
-							name="firstName"
-							type="text"
-							className="form-control"
-							id="firstName"
-							value={firstName}
-							placeholder="Моля, въведете име"
-							onChange={e => setFirstName(e.target.value)}
-							// @blur="$v.firstName.$touch"
-							// :className="{
-							// 	'is-invalid': $v.firstName.$error,
-							// 	'is-valid': !$v.firstName.$invalid
-							// }"
-						/>
+	const handleNamesChange = (event) => {
+		event.preventDefault();
+		loadingContext.showLoading();
+		const newNames = `${firstName} ${lastName}`;
+		firebase.auth.currentUser
+			.updateProfile({ displayName: newNames })
+			.then(() => {
+				setFirstName('');
+				setLastName('');
+				loadingContext.hideLoading();
+				toast.success(`Successfully changed names to ${newNames}`);
+			})
+			.catch((e) => {
+				toast.error(e);
+			});
+	};
+
+	return (
+		<div className='col-lg-5 p-2 m-1 justify-content-center d-flex'>
+			<div className='container'>
+				<form onSubmit={handleNamesChange}>
+					<div className='form-group row'>
+						<label htmlFor='firstName' className='col-sm-2 col-form-label'>
+							Име
+						</label>
+						<div className='col-sm-10'>
+							<input
+								name='firstName'
+								placeholder='Моля, въведете име'
+								type='text'
+								className={firstNameClass}
+								value={firstName}
+								onChange={(e) => setFirstName(e.target.value)}
+								onBlur={validator}
+							/>
+						</div>
 					</div>
-				</div>
-				{/* <div
-					className="alert alert-danger alert-dismissible fade show"
-					v-if="$v.firstName.$dirty && $v.firstName.$invalid"
-				>
-					Моля, въведете валиднo име!
-				</div> */}
-				<div className="form-group row">
-					<label htmlFor="lastName" className="col-sm-2 col-form-label">
-						Фамилия
-					</label>
-					<div className="col-sm-10">
-						<input
-							name="lastName"
-							type="text"
-							className="form-control"
-							id="lastName"
-							value={lastName}
-							placeholder="Моля, въведете фамилия"
-							onChange={e => setLastName(e.target.value)}
-							// @blur="$v.lastName.$touch"
-							// :className="{
-							// 	'is-invalid': $v.lastName.$error,
-							// 	'is-valid': !$v.lastName.$invalid
-							// }"
-						/>
+					{firstNameValid === false ? (
+						<div className='alert alert-danger alert-dismissible fade show'>
+							Моля, въведете валиднo име!
+						</div>
+					) : (
+						''
+					)}
+
+					<div className='form-group row'>
+						<label htmlFor='lastName' className='col-sm-2 col-form-label'>
+							Фамилия
+						</label>
+						<div className='col-sm-10'>
+							<input
+								name='lastName'
+								placeholder='Моля, въведете фамилия'
+								type='text'
+								className={lastNameClass}
+								value={lastName}
+								onChange={(e) => setLastName(e.target.value)}
+								onBlur={validator}
+							/>
+						</div>
 					</div>
-				</div>
-				{/* <div
-					className="alert alert-danger alert-dismissible fade show"
-					v-if="$v.lastName.$dirty && $v.lastName.$invalid"
-				>
-					Моля, въведете валиднo име!
-				</div> */}
-				<button
-					// disabled="$v.firstName.$invalid || $v.lastName.$invalid"
-					className="btn btn-primary"
-				>
-					<h5>Смяна на имената</h5>
-				</button>
-			</form>
+					{lastNameValid === false ? (
+						<div className='alert alert-danger alert-dismissible fade show'>
+							Моля, въведете валиднo име!
+						</div>
+					) : (
+						''
+					)}
+
+					<button
+						disabled={!isFormValid}
+						className='btn btn-primary'
+					>
+						<h5>Смяна на имената</h5>
+					</button>
+				</form>
+			</div>
 		</div>
-	</div>
-    )
-}
+	);
+};
 
-export default NamesChange
+export default NamesChange;

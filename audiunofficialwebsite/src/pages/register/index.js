@@ -3,10 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import UserContext from '../../utils/userContext';
 import FirebaseContext from '../../utils/firebase/firebaseContext';
+import LoadingContext from '../../utils/loadingContext';
 
 const Register = (props) => {
 	const { logIn } = useContext(UserContext);
 	const firebase = useContext(FirebaseContext);
+	const loadingContext = useContext(LoadingContext)
 	const history = useHistory();
 
 	const [firstName, setFirstName] = useState('');
@@ -103,15 +105,12 @@ const Register = (props) => {
 
 	const handleRegister = (event) => {
 		event.preventDefault();
+		loadingContext.showLoading();
 		firebase
 			.doCreateUserWithEmailAndPassword(email, password, firstName, lastName)
 			.then((authUser) => {
-				setFirstName('');
-				setLastName('');
-				setEmail('');
-				setPassword('');
-				setRePassword('');
 				logIn(authUser);
+				loadingContext.hideLoading();
 				toast.success('Successfully registered!')
 				history.push('/home');
 			})
@@ -121,6 +120,7 @@ const Register = (props) => {
 				setEmail('');
 				setPassword('');
 				setRePassword('');
+				loadingContext.hideLoading();
 				toast.error(e);
 			});
 	};

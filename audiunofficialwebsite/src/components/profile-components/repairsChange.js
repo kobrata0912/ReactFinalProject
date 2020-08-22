@@ -5,10 +5,9 @@ import OneRepair from './oneRepair';
 import NoRepairs from './noRepairs';
 
 const RepairsChange = () => {
-    const firebase = useContext(FirebaseContext);
-    const userContext = useContext(UserContext);
+	const firebase = useContext(FirebaseContext);
+	const userContext = useContext(UserContext);
 	const [repairs, setRepairs] = useState([]);
-
 
 	const renderRepairs = useMemo(() => {
 		if (repairs.length === 0) {
@@ -17,24 +16,24 @@ const RepairsChange = () => {
 		return repairs.map((oneRepair, index) => {
 			return <OneRepair key={oneRepair.id} index={index} {...oneRepair} />;
 		});
-    }, [repairs]);
+	}, [repairs]);
 
+	useEffect(() => {
+		const unsub = firebase.db
+			.collection('repairs')
+			.where('email', '==', userContext.user.user.email)
+			.onSnapshot((snapshot) => {
+				const allRepairs = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				setRepairs(allRepairs);
+			});
 
-    useEffect(() => {
-        const unsub = firebase.db.collection('repairs')
-            .where('email', '==', userContext.user.user.email)
-            .onSnapshot((snapshot) => {
-                const allRepairs = snapshot.docs.map((doc) => 
-                ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setRepairs(allRepairs);
-            });
-            return () => {
-                unsub();
-            };
-    }, [firebase.db, userContext.user.user.email])
+		return () => {
+			unsub();
+		};
+	}, [firebase.db, userContext.user.user.email]);
 
 	return (
 		<div className='col-lg-5 p-2 m-1 border'>
