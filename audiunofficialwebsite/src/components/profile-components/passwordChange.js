@@ -69,9 +69,8 @@ const PasswordChange = () => {
 	};
 
 	return (
-		<div className='row justify-content-center d-flex'>
-			<div className='col-lg-5 p-2 m-1 justify-content-center d-flex'>
-				<div className='container'>
+		<div className='col-lg-5 p-2 m-1 border'>
+			<div className='container-fluid'>
 					<form onSubmit={handlePasswordChange}>
 						<div className='form-group row'>
 							<label htmlFor='password' className='col-sm-2 col-form-label'>
@@ -134,10 +133,7 @@ const PasswordChange = () => {
 					</form>
 				</div>
 			</div>
-			<div className='col-lg-5 p-2 m-1 border justify-content-center d-flex'>
-				TODO: Saved configurations
-			</div>
-		</div>
+
 	);
 };
 
