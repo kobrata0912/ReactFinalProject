@@ -90,7 +90,7 @@ const InputForm = ({
 										type='radio'
 										className='form-check-input'
 										name='engineModel'
-										value={engine}
+										value={engine.enginePower}
 										required
 										onChange={(e) =>
 											setCurrentConfig({
@@ -123,7 +123,7 @@ const InputForm = ({
 										type='radio'
 										className='form-check-input'
 										name='engineModel'
-										value={engine}
+										value={engine.enginePower}
 										required
 										onChange={(e) =>
 											setCurrentConfig({
@@ -156,7 +156,7 @@ const InputForm = ({
 										type='radio'
 										className='form-check-input'
 										name='engineModel'
-										value={engine}
+										value={engine.enginePower}
 										required
 										onChange={(e) =>
 											setCurrentConfig({
@@ -189,7 +189,7 @@ const InputForm = ({
 										type='radio'
 										className='form-check-input'
 										name='engineModel'
-										value={engine}
+										value={engine.enginePower}
 										required
 										onChange={(e) =>
 											setCurrentConfig({
