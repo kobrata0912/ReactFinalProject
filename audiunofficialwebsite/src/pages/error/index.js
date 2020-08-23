@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
+import {toast} from 'react-toastify'
 
 const Error = (props) => {
+	
     useEffect(() => {
+		toast.error('There was an error loading the page, you will be redirected to the home page!')
         setTimeout(() => {
 			props.history.push('/home')
 		}, 3000)
