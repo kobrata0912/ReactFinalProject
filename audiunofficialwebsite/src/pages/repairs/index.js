@@ -16,6 +16,55 @@ const Repairs = () => {
 	const [location, setLocation] = useState('');
 	const [description, setDescription] = useState('');
 
+	const [phoneNumberValid, setPhoneNumberValid] = useState('');
+	const [phoneNumberClass, setPhoneNumberClass] = useState('form-control');
+	const [locationValid, setLocationValid] = useState('');
+	const [locationClass, setLocationClass] = useState('custom-select mr-sm-2');
+	const [descriptionValid, setDescriptionValid] = useState('');
+	const [descriptionClass, setDescriptionClass] = useState('form-control');
+	const isFormValid = phoneNumberValid && locationValid && descriptionValid;
+
+	const validator = (e) => {
+		switch (e.target.name) {
+			case 'phoneNumber':
+				{
+					const validation = RegExp(/^[+0-9 ]{10,}$/).test(phone);
+					if (validation) {
+						setPhoneNumberValid(true);
+						setPhoneNumberClass('form-control is-valid');
+					} else {
+						setPhoneNumberValid(false);
+						setPhoneNumberClass('form-control is-invalid');
+					}
+				}
+				break;
+			case 'location':
+				{
+					if (location !== '') {
+						setLocationValid(true);
+						setLocationClass('custom-select mr-sm-2 is-valid');
+					} else {
+						setLocationValid(false);
+						setLocationClass('custom-select mr-sm-2 is-invalid');
+					}
+				}
+				break;
+			case 'description':
+				{
+					if (description !== '' && description.length > 10) {
+						setDescriptionValid(true);
+						setDescriptionClass('form-control is-valid');
+					} else {
+						setDescriptionValid(false);
+						setDescriptionClass('form-control is-invalid');
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	};
+
 	const handleRepair = (event) => {
 		event.preventDefault();
 		loadingContext.showLoading();
@@ -70,7 +119,6 @@ const Repairs = () => {
 										name='fullName'
 										type='text'
 										className='form-control'
-										id='fullName'
 										value={fullName}
 										disabled
 									/>
@@ -86,7 +134,6 @@ const Repairs = () => {
 										name='email'
 										type='text'
 										className='form-control'
-										id='email'
 										value={email}
 										disabled
 									/>
@@ -103,16 +150,12 @@ const Repairs = () => {
 									<input
 										name='phoneNumber'
 										type='text'
-										className='form-control'
-										id='phoneNumber'
 										placeholder='Моля, напишете телефон за обратна връзка'
+										className={phoneNumberClass}
 										value={phone}
 										onChange={(e) => setPhone(e.target.value)}
-										// @blur="$v.phoneNumber.$touch"
-										// :className="{
-										// 	'is-invalid': $v.phoneNumber.$error,
-										// 	'is-valid': !$v.phoneNumber.$invalid,
-										// }"
+										onBlur={validator}
+										autoComplete='off'
 									/>
 								</div>
 							</div>
@@ -123,15 +166,11 @@ const Repairs = () => {
 								<div className='col-sm-10'>
 									<select
 										name='location'
-										className='custom-select mr-sm-2'
 										id='inlineFormCustomSelect'
+										className={locationClass}
 										value={location}
 										onChange={(e) => setLocation(e.target.value)}
-										// @blur="$v.location.$touch"
-										// :className="{
-										// 	'is-invalid': $v.location.$error,
-										// 	'is-valid': !$v.location.$invalid,
-										// }"
+										onBlur={validator}
 									>
 										<option value='' disabled>
 											Изберете сервиз...
@@ -161,30 +200,28 @@ const Repairs = () => {
 									<div className='col-sm-10'>
 										<textarea
 											name='description'
-											className='form-control'
-											id='description'
 											rows='3'
 											placeholder='Моля, опишете накратко повредите по автомобила'
+											className={descriptionClass}
 											value={description}
 											onChange={(e) => setDescription(e.target.value)}
-											// @blur="$v.description.$touch"
-											// :className="{
-											// 	'is-invalid': $v.description.$error,
-											// 	'is-valid': !$v.description.$invalid,
-											// }"
+											onBlur={validator}
 										></textarea>
-										{/* <div
-										className="alert alert-danger alert-dismissible fade show"
-										// v-if="$v.description.$dirty && $v.description.$invalid"
-									>
-										Моля, опишете накратко повредите по автомобила
-									</div> */}
+										{isFormValid === false ? (
+											<div
+												className='alert alert-danger alert-dismissible fade show'
+											>
+												Моля, опишете накратко повредите по автомобила
+											</div>
+										) : (
+											''
+										)}
 									</div>
 								</div>
 							</div>
 							<div className='form-group row'>
 								<div className='col-sm-10'>
-									<button className='btn btn-primary'>Изпрати заявка</button>
+									<button disabled={!isFormValid} className='btn btn-primary'>Изпрати заявка</button>
 								</div>
 							</div>
 						</form>
